@@ -13,6 +13,15 @@ return new class extends Migration
     {
         Schema::create('soals', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('mata_kuliah_id')->constrained('matakuliahs')->onDelete('cascade');
+            $table->string('topik');
+            $table->text('pertanyaan');
+            $table->string('opsi_a');
+            $table->string('opsi_b');
+            $table->string('opsi_c');
+            $table->string('opsi_d');
+            $table->enum('kunci_jawaban',['A','B','C','D']);
+            $table->enum('tingkat_kesulitan',['Mudah','Sedang','Sulit']);
             $table->timestamps();
         });
     }
