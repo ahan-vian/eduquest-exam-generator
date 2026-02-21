@@ -9,6 +9,7 @@ class Matakuliah extends Model
 {
     use HasFactory;
     protected $fillable = [
+        "user_id",
         "kode_matkul",
         "nama_matkul",
         "sks"
@@ -17,5 +18,8 @@ class Matakuliah extends Model
     public function soals()
     {
         return $this->hasMany(Soal::class);
+    }
+    public function user(){
+        return $this->belongsTo(User::class);
     }
 }

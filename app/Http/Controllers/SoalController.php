@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 use App\Models\Soal;
 use App\Models\Matakuliah;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 class SoalController extends Controller
 {
     public function index()
     {
-        $soal = Soal::with('mata_kuliah')->get();
+        $soal = Soal::whereHas('mata_kuliah', function($quary){
+            $quary->where('user_id', Auth::id());
+        })->with('mata_kuliah')->get();
         return view('soal.index',['soals'=> $soal]);
     }
     public function create()
