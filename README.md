@@ -1,66 +1,43 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
-
-## About Laravel
-
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# EDUQUEST — Academic Exam Generator & Question Bank Platform
+EduQuest is a web-based platform designed to help lecturers and academic institutions (especially in **STEM / engineering physics**) **store**, **manage**, and **generate** exam sheets from a structured question bank. It solves a common pain point in STEM assessment: writing **mathematical symbols, calculus, and physics equations** cleanly in digital forms—by integrating **LaTeX + MathJax** for real-time rendering.
+## 1) Background & Project Goals
+Creating STEM exam questions digitally is often slowed down by:- Difficulty typing and formatting equations (integrals, limits, matrices, etc.).- Copy–paste workflows from Word that are time-consuming and error-prone.- Lack of a centralized, structured repository for large volumes of questions.
+EduQuest addresses this by acting as:- A **digital vault (bank soal)** to store and categorize thousands of questions.- A **smart exam generator** that can assemble a print-ready exam sheet in seconds using filters (**course + difficulty**).
+## 2) System Architecture & Technology Stack
+EduQuest follows a modern **Model–View–Controller (MVC)** architecture.
+**Backend**- PHP **Laravel** (routing, scalable codebase structure, server-side validation).
+**Database**- **MySQL** with Laravel **Eloquent ORM** for efficient relational data handling.
+**Frontend**- **HTML5**, **CSS3**, and **Bootstrap 5** for a clean, responsive UI.
+**Math Rendering**- **MathJax** to render LaTeX syntax into publication-grade equations in real time.
+## 3) Relational Database Design
+The system centers on two core entities with a **one-to-many** relationship:
+### A. `courses` (Master Data: Mata Kuliah)
+Stores curriculum-level information:- `course_code` (unique)- `course_name`- `credits` (SKS)
+### B. `questions` (Transactional Data: Bank Soal)
+Central question repository:- `course_id` (foreign key → `courses`)- `topic` / `chapter`- `question_text`- `option_a`, `option_b`, `option_c`, `option_d`- `correct_answer` (A/B/C/D)- `difficulty` (Easy / Medium / Hard)
+> Notes: this schema is intentionally minimal and scalable—ready for extension (tags, images, explanations, randomization, etc.).
+## 4) Core Modules & Features
+### A. Course Management (CRUD)- Create, read, update, delete course data.- Server-side validation ensures **no duplicate course codes**, maintaining clean academic records.
+### B. LaTeX-Integrated Question Bank
+This is the core differentiator.- Lecturers can input questions and multiple-choice options using LaTeX syntax.- MathJax renders LaTeX **instantly** for preview.
+**Example LaTeX input**- Integral: `\( \int_0^\infty e^{-x}\,dx \)`- Matrix: `\( \begin{bmatrix} a & b \\ c & d \end{bmatrix} \)`
+### C. Dynamic Exam Generator (Smart Filter)
+Replaces manual copy–paste workflows.- Filter by:
+  - **Course**
+  - **Difficulty level**- Laravel Eloquent queries fetch matching items instantly for preview.
+### D. Print-to-PDF Exam Sheet- Generates a print-friendly exam page (no navigation UI).- Includes:
+  - Institutional header (kop surat)
+  - Student identity fields (Name & Student ID / NIM)
+  - Cleanly formatted question list with rendered formulas- A small automation script can trigger the browser’s print dialog after MathJax finishes rendering.
+## 5) User Workflow
+1. Lecturer creates / registers a **Course**.
+2. Lecturer gradually adds questions to the **Question Bank** throughout the semester:
+   - Sets topic/chapter and difficulty
+   - Writes equations in LaTeX
+3. Before **Midterm (UTS)** or **Final (UAS)**, lecturer opens **Exam Generator**.
+4. Lecturer selects:
+   - Course
+   - Target difficulty level
+5. System shows a preview of selected questions.
+6. Lecturer clicks **Print**, and the exam sheet is ready to export as **PDF** and distribute.--
+## Project Scope (Summary)- Focus: structured STEM question bank + fast exam generation + LaTeX rendering- Target users: lecturers / instructors / academic staff- Output: print-ready exam sheet via browser print-to-PDF workf
