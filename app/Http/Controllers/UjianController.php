@@ -21,8 +21,17 @@ class UjianController extends Controller
     {
         $matakuliah = Matakuliah::all();
         if ($request->has('mata_kuliah_id') && $request->has('tingkat_kesulitan')) {
-            $soal = Soal::with('mata_kuliah')->where('mata_kuliah_id', $request->mata_kuliah_id)->where('tingkat_kesulitan', $request->tingkat_kesulitan)->get();
-        } else {
+            $quary_soal = Soal::with('mata_kuliah')
+                ->where('mata_kuliah_id', $request->mata_kuliah_id)
+                ->where('tingkat_kesulitan', $request->tingkat_kesulitan)->get();
+            if($request->has('acak') && $request->acak == 'ya'){
+                $soal = $quary_soal->shuffle();
+            }
+            else{
+                $soal = $quary_soal;
+            }
+        }
+        else{
             $soal = [];
         }
         return view('ujian.cetak', ['soals' => $soal]);

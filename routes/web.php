@@ -24,7 +24,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/soal/store', [SoalController::class, 'store']);
     Route::get('/soal/hapus/{id}', [SoalController::class, 'destroy']);
     Route::post('/soal/import', [SoalController::class, 'import']);
-
+    Route::get('/soal/edit/{id}', [SoalController::class, 'edit']);
+    Route::post('/soal/update/{id}', [SoalController::class, 'update']);
+    
     //========Route Matkul========
     Route::get('/matakuliah', [MataKuliahController::class, 'index']);
     Route::post('/matakuliah/store', [MataKuliahController::class, 'store']);
