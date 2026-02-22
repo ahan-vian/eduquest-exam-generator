@@ -12,6 +12,7 @@ class Soal extends Model
         "mata_kuliah_id",
         "topik",
         "pertanyaan",
+        "gambar",
         "opsi_a",
         "opsi_b",
         "opsi_c",
