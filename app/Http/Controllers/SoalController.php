@@ -63,4 +63,31 @@ class SoalController extends Controller
         $soal->delete();
         return redirect('/soal')->with('success to delete');
     }
+
+    public function import(Request $request){
+        $this ->validate($request, [
+            'mata_kuliah_id'=> 'required',
+            'file_csv'=> 'required|mimes:csv,txt,xls|max:10240',
+        ]);
+        $file = $request->file('file_csv');
+        $handle = fopen($file->getPathname(),'r');
+        fgetcsv($handle,1000,',');
+        while(($data = fgetcsv($handle,1000,',')) !== FALSE) {
+            Soal::create([
+                'mata_kuliah_id'=> $request->mata_kuliah_id,
+                'topik'=> $data[0],
+                'pertanyaan'=> $data[1],
+                'opsi_a'=> $data[2],
+                'opsi_b'=> $data[3],
+                'opsi_c'=> $data[4],
+                'opsi_d'=> $data[5],
+                'kunci_jawaban'=> $data[6],
+                'tingkat_kesulitan'=> $data[7],
+                'gambar'=> null
+            ]);
+        }
+        fclose($handle);
+
+        return redirect('/soal')->with('sukses','Soal Berhasil di Import');
+    }
 }
