@@ -34,25 +34,15 @@ EduQuest dibangun dengan arsitektur **Multi-Tenant**, memastikan setiap dosen me
 * **Typography & Math Rendering:** MathJax (CDN)
 
 
-## Cuplikan Layar (Screenshots)
-
-*(Silakan tambahkan tangkapan layar aplikasi Anda di sini. Ganti tautan gambar di bawah dengan tautan gambar asli Anda)*
-
-1. **Dashboard Analytics:** `![Dashboard](link_gambar_dashboard)`
-2. **Input LaTeX & Gambar:** `![Input Soal](link_gambar_input)`
-3. **Smart Exam Generator:** `![Generator](link_gambar_generator)`
-4. **Hasil Cetak (PDF):** `![PDF Output](link_gambar_pdf)`
-
-
 ## Panduan Instalasi (Local Development)
 
 Ikuti langkah-langkah berikut untuk menjalankan proyek EduQuest di mesin lokal Anda:
 
 ### 1. Kloning Repositori
 ```bash
-git clone [https://github.com/USERNAME_ANDA/eduquest.git](https://github.com/USERNAME_ANDA/eduquest.git)
+git clone (https://github.com/ahan-vian/eduquest.git)
 cd eduquest 
-```
+``` 
 ### 2. Instalasi Dependensi PHP
 ```bash
 composer install 
