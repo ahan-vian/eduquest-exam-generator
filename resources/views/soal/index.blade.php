@@ -96,7 +96,8 @@
                                 @endif
                             </td>
                             <td class="text-center">
-                                <a href="/soal/hapus/{{ $s->id }}" class="btn btn-danger btn-sm"
+                                <a href="/soal/edit/{{ $s->id }}" class="btn btn-warning btn-sm fw-bold">Edit</a>
+                                <a href="/soal/hapus/{{ $s->id }}" class="btn btn-danger btn-sm fw-bold"
                                     onclick="return confirm('Hapus soal ini?')">Hapus</a>
                             </td>
                         </tr>

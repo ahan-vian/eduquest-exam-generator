@@ -10,10 +10,10 @@ class SoalController extends Controller
 {
     public function index()
     {
-        $soal = Soal::whereHas('mata_kuliah', function($quary){
+        $soal = Soal::whereHas('mata_kuliah', function ($quary) {
             $quary->where('user_id', Auth::id());
         })->with('mata_kuliah')->get();
-        return view('soal.index',['soals'=> $soal]);
+        return view('soal.index', ['soals' => $soal]);
     }
     public function create()
     {
@@ -32,62 +32,112 @@ class SoalController extends Controller
             'opsi_c' => 'required',
             'opsi_d' => 'required',
             'kunci_jawaban' => 'required',
-            'tingkat_kesulitan'=> 'required',
-            'gambar'=> 'nullable|image|mimes:jpeg,jpg,png|max:2048'
+            'tingkat_kesulitan' => 'required',
+            'gambar' => 'nullable|image|mimes:jpeg,jpg,png|max:2048'
         ]);
         $path = null;
-        if($request->hasFile('gambar')){
-            $path = $request->file('gambar')->store('soal_image','public');
+        if ($request->hasFile('gambar')) {
+            $path = $request->file('gambar')->store('soal_image', 'public');
         }
         Soal::create([
-            'mata_kuliah_id'=>$request->mata_kuliah_id,
-            'topik'=>$request->topik,
-            'pertanyaan'=>$request->pertanyaan,
-            'opsi_a'=>$request->opsi_a,
-            'opsi_b'=>$request->opsi_b,
-            'opsi_c'=>$request->opsi_c,
-            'opsi_d'=>$request->opsi_d,
-            'kunci_jawaban'=>$request->kunci_jawaban,
-            'tingkat_kesulitan'=>$request->tingkat_kesulitan,
-            'gambar'=>$path
+            'mata_kuliah_id' => $request->mata_kuliah_id,
+            'topik' => $request->topik,
+            'pertanyaan' => $request->pertanyaan,
+            'opsi_a' => $request->opsi_a,
+            'opsi_b' => $request->opsi_b,
+            'opsi_c' => $request->opsi_c,
+            'opsi_d' => $request->opsi_d,
+            'kunci_jawaban' => $request->kunci_jawaban,
+            'tingkat_kesulitan' => $request->tingkat_kesulitan,
+            'gambar' => $path
         ]);
         //Soal::create($request->all());
         return redirect('/soal')->with('success to add');
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         $soal = Soal::find($id);
-        if($soal->gambar){
+        if ($soal->gambar) {
             Storage::disk('public')->delete($soal->gambar);
         }
         $soal->delete();
         return redirect('/soal')->with('success to delete');
     }
 
-    public function import(Request $request){
-        $this ->validate($request, [
-            'mata_kuliah_id'=> 'required',
-            'file_csv'=> 'required|mimes:csv,txt,xls|max:10240',
+    public function import(Request $request)
+    {
+        $this->validate($request, [
+            'mata_kuliah_id' => 'required',
+            'file_csv' => 'required|mimes:csv,txt,xls|max:10240',
         ]);
         $file = $request->file('file_csv');
-        $handle = fopen($file->getPathname(),'r');
-        fgetcsv($handle,1000,',');
-        while(($data = fgetcsv($handle,1000,',')) !== FALSE) {
+        $handle = fopen($file->getPathname(), 'r');
+        fgetcsv($handle, 1000, ',');
+        while (($data = fgetcsv($handle, 1000, ',')) !== FALSE) {
             Soal::create([
-                'mata_kuliah_id'=> $request->mata_kuliah_id,
-                'topik'=> $data[0],
-                'pertanyaan'=> $data[1],
-                'opsi_a'=> $data[2],
-                'opsi_b'=> $data[3],
-                'opsi_c'=> $data[4],
-                'opsi_d'=> $data[5],
-                'kunci_jawaban'=> $data[6],
-                'tingkat_kesulitan'=> $data[7],
-                'gambar'=> null
+                'mata_kuliah_id' => $request->mata_kuliah_id,
+                'topik' => $data[0],
+                'pertanyaan' => $data[1],
+                'opsi_a' => $data[2],
+                'opsi_b' => $data[3],
+                'opsi_c' => $data[4],
+                'opsi_d' => $data[5],
+                'kunci_jawaban' => $data[6],
+                'tingkat_kesulitan' => $data[7],
+                'gambar' => null
             ]);
         }
         fclose($handle);
 
-        return redirect('/soal')->with('sukses','Soal Berhasil di Import');
+        return redirect('/soal')->with('sukses', 'Soal Berhasil di Import');
+    }
+
+    public function edit($id)
+    {
+        $soal = Soal::findOrFail($id);
+        if ($soal->mata_kuliah->user_id != Auth::id()) {
+            abort(403, 'Anda tidak memiliki akses untuk mengedit soal ini.');
+        }
+        $mata_kuliah = Matakuliah::where('user_id', Auth::id())->get();
+
+        return view('soal.edit', ['soal' => $soal, 'matakuliah' => $mata_kuliah]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $soal = Soal::findOrFail($id);
+
+        $this->validate($request, [
+            'mata_kuliah_id' => 'required',
+            'topik' => 'required',
+            'pertanyaan' => 'required',
+            'opsi_a' => 'required',
+            'opsi_b' => 'required',
+            'opsi_c' => 'required',
+            'opsi_d' => 'required',
+            'kunci_jawaban' => 'required',
+            'tingkat_kesulitan' => 'required',
+            'gambar' => 'nullable|image|mimes:jpeg,jpg,png|max:2048'
+        ]);
+        $data_update = [
+            'mata_kuliah_id' => $request->mata_kuliah_id,
+            'topik' => $request->topik,
+            'pertanyaan' => $request->pertanyaan,
+            'opsi_a' => $request->opsi_a,
+            'opsi_b' => $request->opsi_b,
+            'opsi_c' => $request->opsi_c,
+            'opsi_d' => $request->opsi_d,
+            'kunci_jawaban' => $request->kunci_jawaban,
+            'tingkat_kesulitan' => $request->tingkat_kesulitan,
+        ];
+        if ($request->hasFile('gambar')) {
+            if ($soal->gambar) {
+                Storage::disk('public')->delete($soal->gambar);
+            }
+            $data_update['gambar'] = $request->file('gambar')->store('soal_images', 'public');
+        }
+        $soal->update($data_update);
+        return redirect('/soal')->with('sukses', 'Soal berhasil diperbarui!');
     }
 }
