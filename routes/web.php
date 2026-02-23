@@ -36,5 +36,5 @@ Route::middleware('auth')->group(function () {
 
     //======Route Ujian========
     Route::get('/ujian', [UjianController::class, 'index']);
-    Route::get('/ujian/cetak', [UjianController::class, 'cetak']);
+    Route::post('/ujian/cetak', [UjianController::class, 'cetak']);
 });
