@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SoalController;
 use App\Http\Controllers\MataKuliahController;
 use App\Http\Controllers\AuthController;
-
+use App\Http\Controllers\DashboardController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -18,6 +18,8 @@ Route::post('/register', [AuthController::class, 'prosesregister']);
 Route::get('/logout', [AuthController::class, 'logout']);
 
 Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index']);
+
     //=======Route Soal==========
     Route::get('/soal', [SoalController::class, 'index']);
     Route::get('/soal/tambah', [SoalController::class, 'create']);
@@ -26,7 +28,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/soal/import', [SoalController::class, 'import']);
     Route::get('/soal/edit/{id}', [SoalController::class, 'edit']);
     Route::post('/soal/update/{id}', [SoalController::class, 'update']);
-    
+
     //========Route Matkul========
     Route::get('/matakuliah', [MataKuliahController::class, 'index']);
     Route::post('/matakuliah/store', [MataKuliahController::class, 'store']);

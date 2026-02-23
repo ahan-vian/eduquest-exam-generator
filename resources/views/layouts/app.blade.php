@@ -21,10 +21,16 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="#">🎓 EduQuest</a>
+            <a class="navbar-brand fw-bold text-primary" href="{{ Auth::check() ? '/dashboard' : '/login' }}">
+                🎓 EduQuest
+            </a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav ms-auto">
                     @auth
+                        <li class="nav-item">
+                            <a class="nav-link fw-bold text-primary" href="/dashboard">Dashboard</a>
+                        </li>
+
                         <li class="nav-item"><a class="nav-link" href="/matakuliah">Mata Kuliah</a></li>
                         <li class="nav-item"><a class="nav-link" href="/soal">Bank Soal</a></li>
                         <li class="nav-item"><a class="nav-link" href="/ujian">Generator Ujian</a></li>

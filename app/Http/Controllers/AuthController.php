@@ -40,7 +40,7 @@ class AuthController extends Controller
             "password"=> $request->password
         ]);
         if(Auth::attempt(["email"=> $request->email,"password"=> $request->password])){
-            return redirect("/login")->with("success");
+            return redirect("/dashboard")->with("success");
         }
         else{
             return redirect("/login")->with('Error','Maaf Email atau Password Salah!');
