@@ -29,15 +29,15 @@
                     <h6 class="text-uppercase fw-bold text-muted mb-3">Komposisi Tingkat Kesulitan Soal</h6>
                     <div class="d-flex justify-content-between text-center">
                         <div>
-                            <h3 class="fw-bold text-success mb-0">{{ $kesulitan['Mudah'] }}</h3>
+                            <h3 class="fw-bold text-success mb-0">{{ $kesulitan['Mudah'] ?? 0 }}</h3>
                             <small class="text-muted">Mudah</small>
                         </div>
                         <div>
-                            <h3 class="fw-bold text-warning mb-0">{{ $kesulitan['Sedang'] }}</h3>
+                            <h3 class="fw-bold text-warning mb-0">{{ $kesulitan['Sedang'] ?? 0 }}</h3>
                             <small class="text-muted">Sedang</small>
                         </div>
                         <div>
-                            <h3 class="fw-bold text-danger mb-0">{{ $kesulitan['Sulit'] }}</h3>
+                            <h3 class="fw-bold text-danger mb-0">{{ $kesulitan['Sulit'] ?? 0 }}</h3>
                             <small class="text-muted">Sulit</small>
                         </div>
                     </div>
@@ -75,8 +75,8 @@
             data: {
                 labels: ['Mudah', 'Sedang', 'Sulit'],
                 datasets: [{
-                    data: [{{ $kesulitan['Mudah'] }}, {{ $kesulitan['Sedang'] }}, {{ $kesulitan['Sulit'] }}],
-                    backgroundColor: ['#198754', '#ffc107', '#dc3545'], // Warna Bootstrap (Success, Warning, Danger)
+                    data: [{{ $kesulitan['Mudah'] ?? 0 }}, {{ $kesulitan['Sedang'] ?? 0 }}, {{ $kesulitan['Sulit'] ?? 0 }}],
+                    backgroundColor: ['#198754', '#ffc107', '#dc3545'],
                     borderWidth: 0
                 }]
             },
@@ -91,12 +91,11 @@
         new Chart(barCtx, {
             type: 'bar',
             data: {
-                // Gunakan json_encode untuk mengubah array PHP menjadi format JavaScript
-                labels: {!! json_encode($labelMatkul) !!},
+                labels: {!! json_encode($labelMatkul ?? []) !!},
                 datasets: [{
                     label: 'Jumlah Soal',
-                    data: {!! json_encode($dataMatkul) !!},
-                    backgroundColor: '#0d6efd', // Warna Biru Bootstrap
+                    data: {!! json_encode($dataMatkul ?? []) !!},
+                    backgroundColor: '#0d6efd',
                     borderRadius: 5
                 }]
             },
@@ -106,7 +105,7 @@
                 scales: {
                     y: {
                         beginAtZero: true,
-                        ticks: { stepSize: 1 } // Pastikan sumbu Y menampilkan angka bulat
+                        ticks: { stepSize: 1 }
                     }
                 }
             }

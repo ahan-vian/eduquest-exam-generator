@@ -13,7 +13,7 @@ Route::get('/', function () {
 //========Route Auth=========
 Route::get('/login', [AuthController::class, 'tampillogin'])->name('login');
 Route::post('/login', [AuthController::class, 'proseslogin']);
-Route::get('/register', [AuthController::class, 'tampilregister']);
+Route::get('/register', [AuthController::class, 'tampilregister'])->name('tampilregister');
 Route::post('/register', [AuthController::class, 'prosesregister']);
 Route::get('/logout', [AuthController::class, 'logout']);
 
